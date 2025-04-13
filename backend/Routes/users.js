@@ -2,12 +2,18 @@
 
 import express from "express";
 // Importando a const que armazena as querys e respostas do banco de dados.
-import { getUsers } from "../Controllers/users.js";
+import { getUsers, addUser, updateUser, deleteUser } from "../Controllers/users.js";
 
 const router = express.Router();
 
 // Definindo uma rota na raiz.
 // Este "getUsers" é chamado do "../Controllers/users.js".
 router.get("/", getUsers);
+
+router.post("/", addUser);
+
+router.put("/:id", updateUser);
+
+router.delete("/:id", deleteUser);
 
 export default router;

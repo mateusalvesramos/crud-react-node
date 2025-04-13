@@ -3,6 +3,7 @@
 // Importando a const que criamos no db.js
 import {db} from "../db.js";
 
+// Função para listagem de usuários.
 // Passando como parâmetro a requisição e o response
 export const getUsers = (_, res ) => {
     // Query SQL
@@ -16,3 +17,39 @@ export const getUsers = (_, res ) => {
     });
 };
 
+// Função que realiza a adição de um novo usuário
+export const addUser = (req, res) => {
+    const q = "INSERT INTO usuarios(nome, email, cpf, fone) VALUES(?)"
+
+    const values = [req.body.nome, req.body.email, req.body.cpf, req.body.fone];
+
+    db.query(q, [values], (err) => {
+        if (err) return res.json(err);
+
+        return res.status(200).json("Usuário criado com sucesso!");
+    });
+};
+
+// Atualização dos dados do usuário.
+export const updateUser = (req, res) => {
+    const q = "UPDATE usuarios SET nome = ?, email = ?, cpf = ?, fone = ? WHERE id = ?";
+
+    const values = [req.body.nome, req.body.email, req.body.cpf, req.body.fone]
+
+    db.query(q, [...values, req.params.id], (err) => {
+        if(err) return res.json(err);
+
+        return res.status(200).json("Usuário atualizado com sucesso!");
+    });
+};
+
+// Exclusão de usuário.
+export const deleteUser = (req, res) => {
+    const q = "DELETE FROM usuarios WHERE id = ?";
+
+    db.query(q, [req.params.id], (err) => {
+        if(err) return res.json(err);
+
+        return res.status(200).json("Usuário deletado com sucesso!");
+    });
+};
