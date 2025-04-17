@@ -2,7 +2,7 @@
 
 import express from "express";
 // Importando a const que armazena as querys e respostas do banco de dados.
-import { getUsers, addUser, updateUser, deleteUser } from "../Controllers/users.js";
+import { getUsers, addUser, updateUser, deleteUser, getUserById } from "../Controllers/users.js";
 
 const router = express.Router();
 
@@ -15,5 +15,7 @@ router.post("/", addUser);
 router.put("/:id", updateUser);
 
 router.delete("/:id", deleteUser);
+
+router.get("/:id", getUserById);
 
 export default router;

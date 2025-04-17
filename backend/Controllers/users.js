@@ -53,3 +53,12 @@ export const deleteUser = (req, res) => {
         return res.status(200).json("Usuário deletado com sucesso!");
     });
 };
+
+export const getUserById = (req, res) => {
+    const q = "SELECT * FROM usuarios WHERE id = ?";
+    db.query(q, [req.params.id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      if (data.length === 0) return res.status(404).json({ msg: "Usuário não encontrado." });
+      return res.status(200).json(data[0]); // retorna o primeiro (e único) item
+    });
+  };

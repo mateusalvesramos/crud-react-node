@@ -1,9 +1,11 @@
 // Este é o componente raiz da aplicação, que renderiza a lista de usuários e exibe um modal ao clicar em um usuário.
 
-import "./App.css"; // Importa os estilos da aplicação
-import Form from "./components/Form.js";
-import Table from "./components/Table.js";
 import { useState, useEffect } from "react";
+import "./App.css"; // Importa os estilos da aplicação
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import Listagem from "./pages/Listagem";
+import CriacaoEdicao from "./pages/CriacaoEdicao";
+import Detalhes from "./pages/Detalhes";
 import axios from "axios";
 
 function App() {
@@ -29,11 +31,36 @@ function App() {
   }, [setUsers]);
 
   return (
-    <>
-    <title>Usuários</title>
-      <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers}/>
-      <Table users={users} setUsers={setUsers} setOnEdit={setOnEdit}/>
-    </>
+    <Router>
+      <div>
+        <nav>
+          <Link to="/">Listagem</Link>
+          <Link to="/criacao_edicao">Cadastro</Link>
+          <Link to="/detalhes">Detalhes</Link>
+          <h3>Mateus Alves Ramos</h3>
+        </nav>
+
+        
+        <Routes>
+          {/* Página de listagem de usuários*/}
+          <Route 
+            path="/" 
+            element={<Listagem />}
+          />
+
+          {/* Página de criação e edição de usários*/}
+          <Route 
+            path="criacao_edicao" 
+            element={<CriacaoEdicao />}
+          />
+          <Route
+            path="/usuario/:id"
+            element={<Detalhes />}
+          />
+
+        </Routes>
+      </div>
+    </Router>
   ); 
 }
 

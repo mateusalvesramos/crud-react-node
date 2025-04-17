@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
 // Recebendo uma propriedade chamada "users" (uma espécie de parâmetro).
-const Table = ({ users, setUsers, setOnEdit }) => {
+const Table_list = ({ users, setUsers, setOnEdit }) => {
 
     const handleDelete = async (id) => {
         await axios
@@ -46,12 +46,6 @@ const Table = ({ users, setUsers, setOnEdit }) => {
                         <td>{item.email}</td>
                         <td>{item.fone}</td>
                         <td>
-                            <button onClick={() => handleEdit(item)}>Edit</button>
-                        </td>
-                        <td>
-                            <button onClick={() => handleDelete(item.id)}>Delete</button>
-                        </td>
-                        <td>
                             <Link to={`/usuario/${item.id}`}>
                                 <button>Ver Detalhes</button>
                             </Link>
@@ -63,4 +57,4 @@ const Table = ({ users, setUsers, setOnEdit }) => {
     )
 }
 
-export default Table;
+export default Table_list;
