@@ -15,7 +15,7 @@ const CriacaoEdicao = () => {
         const res = await axios.get("http://localhost:8800");
         // Realizando a ordenação dos dados que vem da requisição por ordem alfabética.
         // ? é um if, antes dele vem a condição.
-        setUsers(res.data.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
+        setUsers(res.data.sort((a, b) => (a.id - b.id ? 1 : -1)));
         } catch (error) {
         // Futuramente add um popup ou toast.
         console.error("Erro ao buscar usuários:", error); 
@@ -30,7 +30,7 @@ const CriacaoEdicao = () => {
         <>
             <title>Usuários</title>
             <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers}/>
-            <Table users={users} setUsers={setUsers} setOnEdit={setOnEdit}/>
+            <Table users={users} setUsers={setUsers} setOnEdit={setOnEdit} mostrarAcoes={true}/>
         </>
     )
 }

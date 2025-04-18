@@ -1,6 +1,5 @@
 import React from 'react';
 import Table from "../components/Table.js";
-import Table_list from "../components/Table_list.js";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -16,7 +15,7 @@ const Listagem = () => {
         const res = await axios.get("http://localhost:8800");
         // Realizando a ordenação dos dados que vem da requisição por ordem alfabética.
         // ? é um if, antes dele vem a condição.
-        setUsers(res.data.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
+        setUsers(res.data.sort((a, b) => (a.id - b.id ? 1 : -1)));
     } catch (error) {
         // Futuramente add um popup ou toast.
         console.error("Erro ao buscar usuários:", error); 
@@ -29,8 +28,7 @@ const Listagem = () => {
 
     return (
         <div>
-            <h1>Usuários</h1>
-              <Table_list users={users} setUsers={setUsers} setOnEdit={setOnEdit}/>
+              <Table users={users} setUsers={setUsers} setOnEdit={setOnEdit} mostrarAcoes={false} />
         </div>
     )
 }

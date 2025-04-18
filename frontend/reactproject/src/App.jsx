@@ -1,12 +1,31 @@
-// Este é o componente raiz da aplicação, que renderiza a lista de usuários e exibe um modal ao clicar em um usuário.
+// Estilização
+import "./App.css"; // Importa os estilos da aplicação
+import GlobalStyle from "./styles/global";
+import styled from "styled-components";
 
 import { useState, useEffect } from "react";
-import "./App.css"; // Importa os estilos da aplicação
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+
 import Listagem from "./pages/Listagem";
 import CriacaoEdicao from "./pages/CriacaoEdicao";
 import Detalhes from "./pages/Detalhes";
+
+// Components
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 import axios from "axios";
+
+// Componentes de estilização
+const Container = styled.div`
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
 
 function App() {
   // Esta lista de usuários será passada para a tabela.
@@ -31,36 +50,38 @@ function App() {
   }, [setUsers]);
 
   return (
-    <Router>
-      <div>
-        <nav>
-          <Link to="/">Listagem</Link>
-          <Link to="/criacao_edicao">Cadastro</Link>
-          <Link to="/detalhes">Detalhes</Link>
-          <h3>Mateus Alves Ramos</h3>
-        </nav>
+    <>
+      <GlobalStyle/>
+        <Container>
+        <Router>
+          <div>
+            <Navbar />
 
-        
-        <Routes>
-          {/* Página de listagem de usuários*/}
-          <Route 
-            path="/" 
-            element={<Listagem />}
-          />
+            <Routes>
+              {/* Página de listagem de usuários*/}
+              <Route 
+                path="/" 
+                element={<Listagem />}
+              />
 
-          {/* Página de criação e edição de usários*/}
-          <Route 
-            path="criacao_edicao" 
-            element={<CriacaoEdicao />}
-          />
-          <Route
-            path="/usuario/:id"
-            element={<Detalhes />}
-          />
+              {/* Página de criação e edição de usários*/}
+              <Route 
+                path="criacao_edicao" 
+                element={<CriacaoEdicao />}
+              />
+              <Route
+                path="/usuario/:id"
+                element={<Detalhes />}
+              />
 
-        </Routes>
-      </div>
-    </Router>
+            </Routes>
+
+            
+          </div>
+        </Router>
+      </Container>
+      <Footer />
+    </>
   ); 
 }
 

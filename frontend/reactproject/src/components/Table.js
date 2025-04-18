@@ -1,9 +1,24 @@
 import React from "react";
+import styled from "styled-components";
+import { FaTrash } from 'react-icons/fa';
+import { FaPenToSquare } from "react-icons/fa6";
+import { CgDetailsMore } from "react-icons/cg";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+const TableStyle = styled.table`
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 5px #ccc;
+  border-radius: 5px;
+  max-width: 1120px;
+  margin: 20px auto;
+  word-break: break-all;
+`;
 
 // Recebendo uma propriedade chamada "users" (uma espécie de parâmetro).
-const Table = ({ users, setUsers, setOnEdit }) => {
+const Table = ({ users, setUsers, setOnEdit, mostrarAcoes = true }) => {
 
     const handleDelete = async (id) => {
         await axios
@@ -27,7 +42,7 @@ const Table = ({ users, setUsers, setOnEdit }) => {
     };
 
     return (
-        <table>
+        <TableStyle>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -40,27 +55,33 @@ const Table = ({ users, setUsers, setOnEdit }) => {
             <tbody>
                 {users.map((item, i) => (
                     <tr key={i}>
-                        <td>{item.id}</td>
+                        <td width="5%">{item.id}</td>
                         <td>{item.nome}</td>
                         <td>{item.cpf}</td>
                         <td>{item.email}</td>
                         <td>{item.fone}</td>
-                        <td>
-                            <button onClick={() => handleEdit(item)}>Edit</button>
-                        </td>
-                        <td>
-                            <button onClick={() => handleDelete(item.id)}>Delete</button>
-                        </td>
-                        <td>
+
+                        {mostrarAcoes && (
+                            <>
+                                <td width="5%">
+                                    <FaPenToSquare style={{ cursor: 'pointer' }} onClick={() => handleEdit(item)}/>
+                                </td>
+                                <td width="5%">
+                                    <FaTrash style={{ cursor: 'pointer' }} onClick={() => handleDelete(item.id)} />
+                                </td>
+                            </>
+                        )}
+                        
+                        <td width="5%">
                             <Link to={`/usuario/${item.id}`}>
-                                <button>Ver Detalhes</button>
+                                <CgDetailsMore style={{ color: 'black' }} />
                             </Link>
                         </td>
                     </tr>
                 ))}
             </tbody>
-        </table>
-    )
-}
+        </TableStyle>
+    );
+};
 
 export default Table;
