@@ -58,7 +58,7 @@ const Detalhes = () => {
         };
         
         getUser();
-      }, [id]); // O effect roda sempre que o id mudar.
+    }, [id]); // O effect roda sempre que o id mudar.
 
       if (!usuario) {
         return <p>Carregando dados do usuário...</p>;

@@ -1,10 +1,8 @@
-// Estilização
-import "./App.css"; // Importa os estilos da aplicação
 import GlobalStyle from "./styles/global";
 import styled from "styled-components";
 
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Listagem from "./pages/Listagem";
 import CriacaoEdicao from "./pages/CriacaoEdicao";
@@ -28,26 +26,30 @@ const Container = styled.div`
 `;
 
 function App() {
-  // Esta lista de usuários será passada para a tabela.
-  const [users, setUsers] = useState([]);
-  const [onEdit, setOnEdit] = useState(null);
 
-  // Requisição ao banco da lista de usuários.
-  const getUsers = async () => {
-    try {
-      const res = await axios.get("http://localhost:8800");
-      // Realizando a ordenação dos dados que vem da requisição por ordem alfabética.
-      // ? é um if, antes dele vem a condição.
-      setUsers(res.data.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
-    } catch (error) {
-      // Futuramente add um popup ou toast.
-      console.error("Erro ao buscar usuários:", error); 
-    }
-  };
+    // Esta lista de usuários será passada para a tabela.
+    const [users, setUsers] = useState([]);
+    const [onEdit, setOnEdit] = useState(null);
+
+    // Requisição ao banco da lista de usuários.
+    const getUsers = async () => {
+        try {
+        const res = await axios.get("http://localhost:8800");
+        // Realizando a ordenação dos dados que vem da requisição por ordem crescente de ID.
+        setUsers(res.data.sort((a, b) => (a.id - b.id ? 1 : -1)));
+        } catch (error) {
+        // Futuramente add um popup ou toast.
+        console.error("Erro ao buscar usuários:", error); 
+        }
+    };
+
+    useEffect(() => {
+        getUsers();
+    }, [setUsers]);
 
   useEffect(() => {
     getUsers();
-  }, [setUsers]);
+  }, []);
 
   return (
     <>
@@ -61,13 +63,13 @@ function App() {
               {/* Página de listagem de usuários*/}
               <Route 
                 path="/" 
-                element={<Listagem />}
+                element={<Listagem users={users} setUsers={setUsers} setOnEdit={setOnEdit}/>}
               />
 
               {/* Página de criação e edição de usários*/}
               <Route 
                 path="criacao_edicao" 
-                element={<CriacaoEdicao />}
+                element={<CriacaoEdicao users={users} setUsers={setUsers} onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers}/>}
               />
               <Route
                 path="/usuario/:id"
